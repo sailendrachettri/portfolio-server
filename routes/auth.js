@@ -6,7 +6,7 @@ const salt = bcryptjs.genSaltSync(10);
 const JWT_SECRET_KEY = "saf;jakl['DA;LKG09klnaf__";
 const jwt = require('jsonwebtoken');
 
-router.post('/create', async (req, res) => {
+router.post('/register', async (req, res) => {
     let success = false;
     const { username, password, cpassword } = req.body;
 
@@ -47,8 +47,8 @@ router.post('/login', async (req, res) => {
     const jwt_token = jwt.sign(data, JWT_SECRET_KEY);
 
     // set details in cookies
+    success = true;
     res.cookie('jwt_token', jwt_token);
-
     res.status(200).json({ success, message: "Logged In scuessful!", jwt_token });
 })
 

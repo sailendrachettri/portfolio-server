@@ -1,10 +1,13 @@
 const express = require('express');
 const app = express();
 const db = require('./db');
+const cors = require('cors');
 const cookieParser = require('cookie-parser');
+const CLIENT_URL = 'http://localhost:3000'
 
 app.use(express.json());
 app.use(cookieParser());
+app.use(cors({credentials: true, origin: CLIENT_URL}));
 
 const PORT = 5000 || 8000
 
