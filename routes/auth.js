@@ -6,6 +6,7 @@ const salt = bcryptjs.genSaltSync(10);
 const JWT_SECRET_KEY = "saf;jakl['DA;LKG09klnaf__";
 const jwt = require('jsonwebtoken');
 
+// ROUTE 1: Register the admin
 router.post('/register', async (req, res) => {
     let success = false;
     const { username, password, cpassword } = req.body;
@@ -26,6 +27,7 @@ router.post('/register', async (req, res) => {
 
 })
 
+// ROUTE 2: LOGINT THE ADMIN ONLY
 router.post('/login', async (req, res) => {
     let success = false;
 
@@ -52,4 +54,28 @@ router.post('/login', async (req, res) => {
     res.status(200).json({ success, message: "Logged In scuessful!", jwt_token });
 })
 
+// ROUTE 3: Get all the user information (LOGGED IN)
+router.get('/profile', (req, res) => {
+    let success = false;
+    const { jwt_token } = req.cookies;
+
+    try {
+        success = true;
+        const userInfo = jwt.verify(jwt_token, JWT_SECRET_KEY);
+        res.status(200).json(userInfo);
+
+    } catch (err) {
+        success = false;
+        res.status(500).json({ success, message: "Internal server errorrr" })
+    }
+})
+
+// ROUTE 4: Handle logout
+router.post('/logout', (req, res) => {
+    try {
+        res.cookie('auth_token', '').json('ok'); // removing auth_token from cookie
+    } catch (err) {
+        res.status(500).json(err);
+    }
+})
 module.exports = router
