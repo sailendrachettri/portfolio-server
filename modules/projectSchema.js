@@ -7,6 +7,7 @@ const projectSchema = new Schema({
     link : String,
     cover : String,
     alt : String,
+    admin : {type: Schema.Types.ObjectId, ref: 'Admin'},
 }, {
     timestamps : true
 })

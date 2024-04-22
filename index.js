@@ -8,6 +8,7 @@ const CLIENT_URL = 'http://localhost:3000'
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({credentials: true, origin: CLIENT_URL}));
+app.use('/uploads', express.static(__dirname + '/uploads'))
 
 const PORT = 5000 || 8000
 
