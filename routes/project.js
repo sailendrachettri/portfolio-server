@@ -33,6 +33,7 @@ router.post('/add', uploadMiddleware.single('file'), async (req, res) => {
             link,
             admin: info.id
         })
+        success = true;
         res.status(200).json({ success, projectDoc });
     })
 })
@@ -48,7 +49,6 @@ router.get('/fetch', async (req, res) => {
         res.json(posts)
     } catch (err) {
         res.status(404).json({ success, message: "Failed to fetch posts" })
-        console.log(err);
     };
 })
 
