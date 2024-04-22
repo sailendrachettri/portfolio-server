@@ -1,8 +1,10 @@
 const express = require('express');
 const app = express();
 const db = require('./db');
+const cookieParser = require('cookie-parser');
 
-app.use(express.json())
+app.use(express.json());
+app.use(cookieParser());
 
 const PORT = 5000 || 8000
 
