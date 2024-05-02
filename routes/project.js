@@ -52,6 +52,51 @@ router.get('/fetch', async (req, res) => {
     };
 })
 
+// ROUTE 3: NOW  FETCH PROJECT AS A SINGLE PAGE TO EDIT
+router.get('/fetch/:id', async (req, res) => {
+    const { id } = req.params;
+    const projectDoc = await Project.findById(id);
+    res.json(projectDoc)
+})
+
+// ROUTE 4: edit the projects
+router.put('/edit', uploadMiddleware.single('file'), async (req, res) => {
+    let success = false;
+    let newPath = null;
+
+    if (req.file) {
+        const { originalname, path } = req.file;
+        const parts = originalname.split('.');
+        const ext = parts[parts.length - 1];
+        newPath = path + '.' + ext;
+        fs.renameSync(path, newPath);
+    }
+
+    // get the user data and send to client
+    const { jwt_token } = req.cookies;
+    jwt.verify(jwt_token, JWT_SECRET_KEY, {}, async (err, info) => {
+        // if (err) throw err;
+        if (err)
+            return res.status(500).json({ message: "Internal server error" })
+
+        const { id, title, summary, alt, link } = req.body;
+        const projectDoc = await Project.findById(id);
+
+        await projectDoc.updateOne({
+            title,
+            summary,
+            alt,
+            link,
+            cover: newPath ? newPath : projectDoc.cover
+        });
+
+        success = true;
+        res.json({projectDoc, success});
+
+    });
+
+})
+
 
 
 
