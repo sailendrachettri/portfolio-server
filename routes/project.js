@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Project = require('../modules/projectSchema');
+const Skills = require('../modules/SkillsSchema')
 const multer = require('multer');
 const fs = require('fs');
 const jwt = require('jsonwebtoken');
@@ -91,9 +92,49 @@ router.put('/edit', uploadMiddleware.single('file'), async (req, res) => {
         });
 
         success = true;
-        res.json({projectDoc, success});
+        res.json({ projectDoc, success });
 
     });
+
+})
+
+// ROUTE 5: add skills
+router.post('/addskills', async (req, res) => {
+    let success = false;
+
+    try {
+        const { skillname, highlight } = req.body
+
+        const data = await Skills.create({
+            skillname,
+            highlight
+        })
+
+        success = true;
+        res.json({ success, message: "Skill added successfully!", data });
+    } catch (err) {
+        success = false;
+        res.status(500).json({ success, message: "Failed to added skills" });
+    }
+
+})
+
+// ROUTER 6: fetch all the skills
+router.get('/fetchskills', async(req, res)=>{
+    let success = false;
+
+    try{
+        const skills = await Skills.find()
+
+        success = true;
+        res.status(200).json({success, skills});
+        
+    } catch(err){
+        success = false;
+        res.status(400).json({success, message: "Not able to fetch skills data"});
+    }
+
+    
 
 })
 
