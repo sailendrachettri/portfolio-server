@@ -51,6 +51,7 @@ router.post('/login', async (req, res) => {
     // set details in cookies
     success = true;
     res.cookie('jwt_token', jwt_token, {
+        httpOnly: true,
         secure: true,
         sameSite: 'none',
     }).status(200).json({ success, message: "Logged In scuessful!", jwt_token });
