@@ -53,8 +53,7 @@ router.post('/login', async (req, res) => {
     res.cookie('jwt_token', jwt_token, {
         secure: true,
         sameSite: 'none',
-    });
-    res.status(200).json({ success, message: "Logged In scuessful!", jwt_token });
+    }).status(200).json({ success, message: "Logged In scuessful!", jwt_token });
 })
 
 // ROUTE 3: Get all the user information (LOGGED IN)
