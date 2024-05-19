@@ -53,7 +53,7 @@ router.post('/login', async (req, res) => {
     res.cookie('jwt_token', jwt_token, {
         httpOnly: true,
         secure: true,
-        sameSite: 'strict',
+        sameSite: 'lax',
     }).status(200).json({ success, message: "Logged In scuessful!", jwt_token });
 })
 
