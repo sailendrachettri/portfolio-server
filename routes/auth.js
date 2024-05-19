@@ -51,8 +51,7 @@ router.post('/login', async (req, res) => {
     // set details in cookies
     success = true;
     res.cookie('jwt_token', jwt_token, {
-        httpOnly: false,
-        sameSite: 'None',
+        sameSite: 'none',
         secure: true
     }).status(200).json({ success, message: "Logged In scuessful!", jwt_token });
 })
@@ -76,7 +75,7 @@ router.get('/profile', (req, res) => {
 // ROUTE 4: Handle logout
 router.post('/logout', (req, res) => {
     try {
-        res.cookie('jwt_token', '').json('ok'); // removing auth_token from cookie
+        res.cookie('jwt_token', '', {sameSite: 'none', secure: true}).json('ok'); // removing auth_token from cookie
     } catch (err) {
         res.status(500).json(err);
     }
