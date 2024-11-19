@@ -46,7 +46,7 @@ router.get('/fetch', async (req, res) => {
         const posts = await Project.find()
             .populate('admin', ['username'])
             .sort({ createdAt: -1 })
-            .limit(20)
+            .limit(9)
         res.json(posts)
     } catch (err) {
         res.status(404).json({ success, message: "Failed to fetch posts" })
@@ -137,8 +137,5 @@ router.get('/fetchskills', async(req, res)=>{
     
 
 })
-
-
-
 
 module.exports = router
